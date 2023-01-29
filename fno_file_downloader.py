@@ -1,6 +1,6 @@
 import os
 import io
-from datetime import date, time
+from datetime import date
 import requests
 import zipfile36
 
