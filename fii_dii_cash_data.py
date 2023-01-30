@@ -13,4 +13,5 @@ def get_fii_dii_cash_data():
     response = session.get("https://www.nseindia.com/api/fiidiiTradeReact", timeout=4)
     return response.content
 
-data = get_fii_dii_cash_data()
+if __name__ == "__main__":
+    data = get_fii_dii_cash_data()
