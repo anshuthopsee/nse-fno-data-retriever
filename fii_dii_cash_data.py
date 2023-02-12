@@ -1,17 +1,23 @@
 import requests
+import ast
 
-header = {
-    "user-agent" :"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36",
+headers = {
+    "accept": "/",
     "accept-encoding": "gzip, deflate, br",
-    "accept": """text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9""",
+    "user-agent" :"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"
 }
 
 session = requests.Session()
-session.headers.update(header)
 
-def get_fii_dii_cash_data():
-    response = session.get("https://www.nseindia.com/api/fiidiiTradeReact", timeout=4)
-    return response.content
+def get_cookies():
+    request = session.get("https://www.nseindia.com", headers=headers, timeout=4)
+    return request.cookies
+
+def get_cash_data():
+    response = session.get("https://www.nseindia.com/api/fiidiiTradeReact", headers=headers, cookies=get_cookies(), timeout=4)
+    data = response.content
+    data = ast.literal_eval(data.decode("utf-8"))
+    return data
 
 if __name__ == "__main__":
-    data = get_fii_dii_cash_data()
+    print(get_cash_data())
